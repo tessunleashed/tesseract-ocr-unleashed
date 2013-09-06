@@ -6,6 +6,7 @@
 #include "CommandParser.h"
 #include "KeywordMap.h"
 #include <iostream>
+#include <fstream>
 #include <baseapi.h>
 #include "allheaders.h"
 #include "base64.h"
@@ -280,11 +281,11 @@ void InputHandler::commLang() {
 }
 //test procedure
 void InputHandler::commTest() {
-	if(checkInit()) {
-		FILE* fp = fopen("vars2.txt", "w+");
+	/*if(checkInit()) {
+		FILE* fp = fopen("help.txt", "r");
 		myTess->PrintVariables(fp);
 		fclose(fp);
-	}
+	}*/
 	/*
 	if (isInit && checkNumberOfArguments(0)) {
 		for(int i = 0; i < 50; i++) {
@@ -329,8 +330,7 @@ void InputHandler::commGetHTMLText() {
 	if(checkInit()) {
 		if(checkNumberOfArguments(1)) {
 			int pageNumber = 0;
-			pageNumber = atoi(parsedCommand[1].c_str());
-			//pageNumber = (int) parsedCommand[1].c_str();
+			pageNumber = (int) parsedCommand[1].c_str();
 			char* result = myTess->GetHOCRText(pageNumber);
 			cout << "<html>" << endl << "<body>" << endl;
 			cout << result << endl;
@@ -344,8 +344,19 @@ void InputHandler::commGetHTMLText() {
 
 //Help
 void InputHandler::commHelp() {
-	//TODO: Search for help.txt file
-	//TODO: Open text file, read text and post it. Close text file.
+	string line;
+	ifstream myfile ("./help.txt");
+	if (myfile.is_open())
+	{
+		while ( myfile.good() )
+		{
+			getline (myfile,line);
+			cout << line << endl;
+		}
+		myfile.close();
+	} else {
+		cout << "ErrorCouldNotFindHelpFile" << endl;
+	}
 }
 
 
@@ -416,14 +427,10 @@ void InputHandler::tessSetImage() {
 			//ask for image data
 			const l_uint8* dataConst;
 			readImageData(dataConst);
-			int width = atoi(parsedCommand[2].c_str());
-			int height = atoi(parsedCommand[3].c_str());
-			int bytesPerPixel = atoi(parsedCommand[4].c_str());
-			int bytesPerLine = atoi(parsedCommand[5].c_str());
-//			int width = (int) parsedCommand[2].c_str();
-//			int height = (int) parsedCommand[3].c_str();
-//			int bytesPerPixel = (int) parsedCommand[4].c_str();
-//			int bytesPerLine = (int) parsedCommand[5].c_str();
+			int width = (int) parsedCommand[2].c_str();
+			int height = (int) parsedCommand[3].c_str();
+			int bytesPerPixel = (int) parsedCommand[4].c_str();
+			int bytesPerLine = (int) parsedCommand[5].c_str();
 			myTess->SetImage(dataConst, width, height, bytesPerPixel, bytesPerLine);
 		} else {
 			sendWrongNumberOfArgumentsError();
@@ -462,18 +469,12 @@ void InputHandler::tessTesseractRect() {
 			//clear old data
 			myTess->Clear();
 			//cast parsed command
-//			int bytes_per_pixel = (int) parsedCommand[2].c_str();
-//			int bytes_per_line = (int) parsedCommand[3].c_str();
-//			int left = (int) parsedCommand[4].c_str();
-//			int top = (int) parsedCommand[5].c_str();
-//			int width = (int) parsedCommand[6].c_str();
-//			int height = (int) parsedCommand[7].c_str();
-			int bytes_per_pixel = atoi(parsedCommand[2].c_str());
-			int bytes_per_line = atoi(parsedCommand[3].c_str());
-			int left = atoi(parsedCommand[4].c_str());
-			int top = atoi(parsedCommand[5].c_str());
-			int width = atoi(parsedCommand[6].c_str());
-			int height = atoi(parsedCommand[7].c_str());
+			int bytes_per_pixel = (int) parsedCommand[2].c_str();
+			int bytes_per_line = (int) parsedCommand[3].c_str();
+			int left = (int) parsedCommand[4].c_str();
+			int top = (int) parsedCommand[5].c_str();
+			int width = (int) parsedCommand[6].c_str();
+			int height = (int) parsedCommand[7].c_str();
 			//ask for image data
 			const l_uint8* dataConst;
 			readImageData(dataConst);
@@ -729,7 +730,7 @@ void InputHandler::tessClearAdaptiveClassifier() {
 void InputHandler::tessSetSourceResolution() {
 	if(checkInit()) {
 		if(checkNumberOfArguments(1)) {
-			int ppi = atoi(parsedCommand[1].c_str());
+			int ppi = (int) parsedCommand[1].c_str();
 			myTess->SetSourceResolution(ppi);
 		} else {
 			sendWrongNumberOfArgumentsError();
@@ -740,10 +741,10 @@ void InputHandler::tessSetSourceResolution() {
 void InputHandler::tessSetRectangle() {
 	if(checkInit()) {
 		if(checkNumberOfArguments(4)) {
-			int left = atoi(parsedCommand[1].c_str());
-			int top = atoi(parsedCommand[2].c_str());
-			int width = atoi(parsedCommand[3].c_str());
-			int height = atoi(parsedCommand[4].c_str());
+			int left = (int) parsedCommand[1].c_str();
+			int top = (int) parsedCommand[2].c_str();
+			int width = (int) parsedCommand[3].c_str();
+			int height = (int) parsedCommand[4].c_str();
 			myTess->SetRectangle(left, top, width, height);
 		} else {
 			sendWrongNumberOfArgumentsError();
@@ -775,7 +776,7 @@ void InputHandler::tessProcessPages() {
 		if(checkNumberOfArguments(3)) {
 			string filename = parsedCommand[1];
 			string retryConfig = parsedCommand[2];
-			int timeout = atoi(parsedCommand[3].c_str());
+			int timeout = (int) parsedCommand[3].c_str();
 			STRING textOut;
 			STRING* textOutPt = &textOut;
 			bool result = myTess->ProcessPages(filename.c_str(),retryConfig.c_str(),timeout,textOutPt);
@@ -800,7 +801,7 @@ void InputHandler::tessGetUTF8Text() {
 
 void InputHandler::tessGetHOCRText() {
 	if(checkInit() && checkNumberOfArguments(1)) {
-		int pageNumber = atoi(parsedCommand[1].c_str());
+		int pageNumber = (int) parsedCommand[1].c_str();
 		char* result = myTess->GetHOCRText(pageNumber);
 		cout << result << endl;
 		delete[] result;
@@ -809,7 +810,7 @@ void InputHandler::tessGetHOCRText() {
 
 void InputHandler::tessGetBoxText() {
 	if(checkInit() && checkNumberOfArguments(1)) {
-		int pageNumber = atoi(parsedCommand[1].c_str());
+		int pageNumber = (int) parsedCommand[1].c_str();
 		char* result = myTess->GetBoxText(pageNumber);
 		cout << result << endl;
 		delete[] result;
@@ -882,7 +883,7 @@ void InputHandler::tessGetTextDirection() {
 
 void InputHandler::tessGetUniChar() {
 	if(checkInit() && checkNumberOfArguments(1)) {
-		int id = atoi(parsedCommand[1].c_str());
+		int id = (int) parsedCommand[1].c_str();
 		cout << myTess->GetUnichar(id) << endl;
 	}
 }

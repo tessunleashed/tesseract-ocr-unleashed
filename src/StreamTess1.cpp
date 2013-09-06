@@ -5,7 +5,7 @@
 // Copyright   : Copyright 2013 Max Peters
 // Description : Tesseract Stream IO
 //============================================================================
-/*
+
 #include <iostream>
 #include <string>
 #include "baseapi.h"
@@ -160,4 +160,3 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
-*/
