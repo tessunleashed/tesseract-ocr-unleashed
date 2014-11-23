@@ -24,6 +24,7 @@ void KeywordMap::setKeywords() {
 	Keywords["exit"] = quit;
 	Keywords["stop"] = quit;
 	Keywords["shutdown"] = quit;
+	Keywords["-1"] = quit;
 	Keywords["end"] = end;
 	Keywords["init"] = init;
 	Keywords["path"] = path;
