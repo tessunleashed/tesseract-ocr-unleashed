@@ -1,0 +1,76 @@
+### Help Text for Tesseract-OCR-unleashed ###
+
+Brief overview of the available commands.
+For more detailed documentation see http://code.google.com/p/tesseract-ocr-unleashed/wiki/
+
+- Silent Mode -
+To switch off standard responses and input requests, start in silent mode by calling with "-silent".
+
+- Control commands -
+help
+lang [languages]
+path [datapath]
+quit
+
+- Pre init -
+version
+setInputName [filename]
+setOutputName [filename]
+
+- Tesseract init -
+init
+init [datapath] [languages]
+init [datapath] [languages] [ocr_engine_mode]
+initLangMod [datapath] [languages]
+initForAnalysePage
+
+- Post init -
+adaptToWordStr [pagesegmode] "[w o r d s t r]"
+allWordConfidences
+clear
+clearAdaptiveClassifier
+getBoolVariable [varname]
+getDoubleVariable [varname]
+getIntVariable [varname]
+getStringVariable [varname]
+getTextDirection #returns offset and slope in 2 lines
+getOEMString # returns OcrEngineMode as string
+getUnichar [unicharID]
+getVariableAsString [varname]
+getInitLanguagesAsString
+getLoadedLanguagesAsVector
+getAvailableLanguagesAsVector
+getUTF8Text
+getHOCRText [pageNumber]
+getBoxText [pageNumber]
+getUNLVText
+getPageSegMode
+isValidWord [word]
+meanTextConf
+numDawgs
+printVariables [filename]
+processPages [filename] [retry_config] [timeout_millisec]
+readConfigFile [filename]
+readDebugConfigFile [filename]
+setPageSegMode [pagesegmode]
+setImage [size]
+setImage [size] [width] [height] [bytes_per_pixel] [bytes_per_line]
+set_min_orientation_margin [margin]
+setVariable [var] [val]
+setDebugVariable [var] [val]
+setSourceResolution [ppi]
+setRectangle [left] [top] [width] [height]
+tesseractRect [size] [bytes_per_pixel] [bytes_per_line] [left] [top] [width] [height] #asks for image data
+
+- Own Tesseract calls -
+getHTMLText int pageNumber
+
+- Limited functionality Tesseract calls -
+recognize
+recognizeForChopTest
+makeTessOCRRow [baseline] [xheight] [descender] [ascender]
+findLinesCreateBlockList
+deleteBlockList
+
+- Tesseract end -
+end
