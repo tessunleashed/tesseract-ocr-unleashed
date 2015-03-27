@@ -9,7 +9,7 @@
 #include <fstream>
 #include <baseapi.h>
 #include "allheaders.h"
-#include "base64.h"
+//#include "base64.h"
 
 //#ifdef _WIN32
 //#include <fcntl.h>
